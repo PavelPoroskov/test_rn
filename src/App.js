@@ -18,7 +18,9 @@ const MainNavigator = createStackNavigator({
   Quotes: {screen: QuotesScreen},
 },
 {
-  initialRouteName: "About"
+  //debug
+  //initialRouteName: "About",
+  initialRouteName: "Quotes"
 });
 
 const App = createAppContainer(MainNavigator);

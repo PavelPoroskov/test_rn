@@ -9,5 +9,5 @@ at 04/16/2019
 react-native run-android
 
 
-https://reactnavigation.org/docs/en/getting-started.html
+https://reactnavigation.org/docs/en/getting-started.html 
 ?ios/podfile
