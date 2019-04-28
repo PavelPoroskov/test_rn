@@ -11,3 +11,13 @@ react-native run-android
 
 https://reactnavigation.org/docs/en/getting-started.html 
 ?ios/podfile
+
+
+need optimization 
+//render Table
+//)virtaualized list (render only visble)
+//rerender
+//)rerender only changed string
+
+need fix
+) for USDT_BTC digits go to next line
