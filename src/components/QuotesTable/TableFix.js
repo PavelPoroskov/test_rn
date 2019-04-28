@@ -50,10 +50,10 @@ const QuotesTableHeader = () => (
       <Text>Last</Text>
     </View>
     <View style={styles.dtable__row__hcell}>
-      <Text>Change %</Text>
+      <Text>Highest Bid</Text>
     </View>
     <View style={styles.dtable__row__hcell}>
-      <Text>High 24hr</Text>
+      <Text>Change %</Text>
     </View>
   </View>
 )
@@ -67,10 +67,10 @@ const QuotesTableRow = ({ oRow }) => (
       <Text>{oRow['last']}</Text>
     </View>
     <View style={styles.dtable__row__cell}>
-      <Text>{oRow['percentChange']}</Text>
+      <Text>{oRow['highestBid']}</Text>
     </View>
     <View style={styles.dtable__row__cell}>
-      <Text>{oRow['high24hr']}</Text>
+      <Text>{oRow['percentChange']}</Text>
     </View>
   </View>
 )
