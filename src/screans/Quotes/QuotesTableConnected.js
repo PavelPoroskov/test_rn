@@ -52,12 +52,8 @@ const fnLimit = (oResult) => {
 
 const QuotesTableConnected = (props) => {
   
-  //this.props.isFocused ? 5000 : null
-  // this.props.isFocused => request every 5sec
-  // not this.props.isFocused => not request
-
   //const [loading, data, error, info] = useIntervalRequest( config.URL, 5000, result => Object.keys(result).map( key => ({ pair: key, ...result[key] }) ) )
-  const [loading, data, error, info] = useIntervalRequest( config.URL, props.isFocused ? 5000 : null , fnLimit )
+  const [loading, data, error, info] = useIntervalRequest( props.isFocused, config.URL, 5000, fnLimit )
   //console.log(`loading ${loading}, error ${error}`)
 
   if (!data) {
@@ -69,4 +65,4 @@ const QuotesTableConnected = (props) => {
   return <QuotesTable arRows={data} error={error} info={info}/>
 }
 
-export default  withNavigationFocus(QuotesTableConnected)
+export default withNavigationFocus(QuotesTableConnected)
