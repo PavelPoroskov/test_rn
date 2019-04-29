@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
   dtable__row__hcell: {
     flex: 1,
-    
+
     //alignItems: 'center',
     alignItems: 'flex-end',
     marginRight: 10,
@@ -38,6 +38,14 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     marginRight: 4,
     //backgroundColor: 'aqua',
+  },
+  errorView: {
+    backgroundColor: 'pink',
+  },
+  errorText: {
+    color: 'red',
+    fontWeight: 'bold',
+    marginLeft: 10,
   },
 })
 
@@ -75,19 +83,51 @@ const QuotesTableRow = ({ oRow }) => (
   </View>
 )
 
-const QuotesTable = ({arRows, oDebug, error, info}) => (
+const QuotesTable = ({ arRows, oDebug, error, info }) => (
   <View style={styles.dtable}>
-    <View>
-      <Text>
-        {info && `requests ${info.countRequest}`}
-        {error}
-      </Text>
-    </View>
+    {info && <Text>{`requests ${info.countRequest}`}</Text>}
+    {error && (
+      <View style={styles.errorView}>
+        <Text style={styles.errorText}>Error</Text>
+      </View>
+    )}
     <QuotesTableHeader />
-    {arRows.map(oRow => (
-      <QuotesTableRow oRow={oRow} key={oRow.pair} />
-    ))}
+    {arRows && (
+      <React.Fragment>
+        {arRows.map(oRow => (
+          <QuotesTableRow oRow={oRow} key={oRow.pair} />
+        ))}
+      </React.Fragment>
+    )}
   </View>
 )
+
+// class QuotesTable extends React.Component {
+//   render() {
+//     const { arRows, error, info } = this.props
+//     console.log('QuotesTable render()')
+//     console.log(arRows)
+//     console.log(error)
+
+//     return (
+//       <View style={styles.dtable}>
+//         {info && <Text>{`requests ${info.countRequest}`}</Text>}
+//         {error && (
+//           <View>
+//             <Text style={styles.error}>Error</Text>
+//           </View>
+//         )}
+//         <QuotesTableHeader />
+//         {arRows && (
+//           <React.Fragment>
+//             {arRows.map(oRow => (
+//               <QuotesTableRow oRow={oRow} key={oRow.pair} />
+//             ))}
+//           </React.Fragment>
+//         )}
+//       </View>
+//     )
+//   }
+// }
 
 export default QuotesTable
