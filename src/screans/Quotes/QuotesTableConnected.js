@@ -31,35 +31,35 @@ import config from '../../config';
 //   { pair: "BTC_DOGE", "id":27,"last":"0.00000048","lowestAsk":"0.00000048","highestBid":"0.00000047","percentChange":"0.02127659","baseVolume":"54.43132979","quoteVolume":"113739425.06041349","isFrozen":"0","high24hr":"0.00000049","low24hr":"0.00000046"},
 //   { pair: "BTC_GAME", "id":38,"last":"0.00001943","lowestAsk":"0.00001963","highestBid":"0.00001943","percentChange":"-0.01620253","baseVolume":"0.18317022","quoteVolume":"9158.68706994","isFrozen":"0","high24hr":"0.00002040","low24hr":"0.00001914"},
 // ]
-// const fnAll = (oResult) => Object.keys(oResult).map( key => {
-//   const {last, highestBid, percentChange } = oResult[key]
-//   return { pair: key, last, highestBid, percentChange }
-// } )
+const fnAll = (oResult) => Object.keys(oResult).map( key => {
+  const {last, highestBid, percentChange } = oResult[key]
+  return { pair: key, key, last, highestBid, percentChange }
+} )
 
-const fnLimit = (oResult) => {
-  let newResult = []
+// const fnLimit = (oResult) => {
+//   let newResult = []
 
-  let limit = 10
-  //stupid error
-  //for (let key of oResult) {
-  for (let key in oResult) {
-    const {last, highestBid, percentChange } = oResult[key]
-    let newRow = { pair: key, last, highestBid, percentChange }
-    newResult.push(newRow)
+//   let limit = 10
+//   //stupid error
+//   //for (let key of oResult) {
+//   for (let key in oResult) {
+//     const {last, highestBid, percentChange } = oResult[key]
+//     let newRow = { pair: key, last, highestBid, percentChange }
+//     newResult.push(newRow)
 
-    limit--
-    if (limit <= 0) {
-      break
-    }
-  }
+//     limit--
+//     if (limit <= 0) {
+//       break
+//     }
+//   }
 
-  return newResult
-}
+//   return newResult
+// }
 
 const QuotesTableConnected = (props) => {
   
-  //const [loading, data, error, info] = useIntervalRequest( props.isFocused, config.URL, 5000, fnAll )
-  const [loading, data, error, info] = useIntervalRequest( props.isFocused, config.URL, 5000, fnLimit )
+  const [loading, data, error, info] = useIntervalRequest( props.isFocused, config.URL, 5000, fnAll )
+  //const [loading, data, error, info] = useIntervalRequest( props.isFocused, config.URL, 5000, fnLimit )
   //console.log(`loading ${loading}, error ${error}`)
 
   if (!data) {

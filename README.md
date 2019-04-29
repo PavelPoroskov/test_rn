@@ -21,3 +21,8 @@ need optimization
 
 need fix
 ) for USDT_BTC digits go to next line
+
+
+after FlatList
+)last element half-view
+)network error
