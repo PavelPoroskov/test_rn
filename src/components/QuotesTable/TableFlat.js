@@ -90,6 +90,38 @@ const QuotesTableRow = ({ oRow }) => (
 //   />
 // )
 
+const ListFooterComponent = (props) => (
+  <View>
+    <View>
+      <Text></Text>
+    </View>
+    <View>
+      <Text></Text>
+    </View>
+    <View>
+      <Text></Text>
+    </View>
+    <View>
+      <Text></Text>
+    </View>
+    <View>
+      <Text></Text>
+    </View>
+    <View>
+      <Text></Text>
+    </View>
+    <View>
+      <Text></Text>
+    </View>
+    <View>
+      <Text></Text>
+    </View>
+    <View>
+      <Text></Text>
+    </View>
+  </View>
+)
+
 const QuotesTableFlat = ({ arRows, oDebug, error, info }) => (
   <View style={styles.dtable}>
     {info && <Text>{`requests ${info.countRequest}`}</Text>}
@@ -101,6 +133,7 @@ const QuotesTableFlat = ({ arRows, oDebug, error, info }) => (
     <QuotesTableHeader />
     {arRows && (
       <FlatList
+        ListFooterComponent={ListFooterComponent}
         data={arRows}
         renderItem={({ item }) => (
           <QuotesTableRow oRow={item} key={item.pair} />
