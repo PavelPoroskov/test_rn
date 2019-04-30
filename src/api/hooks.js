@@ -17,7 +17,7 @@ function fetchLimit(URL, msLimit) {
 }
 
 function useIntervalRequest(isOn, URL, delay, fnTransform) {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true) // spinner on only first screen open
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
 
@@ -32,10 +32,10 @@ function useIntervalRequest(isOn, URL, delay, fnTransform) {
 
     try {
       //setLoading(true)
-      //console.log(`before fetch ${savedCountRequest.current}`)
+      console.log(`before fetch ${savedCountRequest.current}`)
       //const result = await fetch(URL)
       const result = await fetchLimit(URL, 1500 )
-      //console.log(`after fetch ${savedCountRequest.current}`)
+      console.log(`after fetch ${savedCountRequest.current}`)
       if (!isOn) {
         return
       }
@@ -57,7 +57,7 @@ function useIntervalRequest(isOn, URL, delay, fnTransform) {
       setError(null)
     } catch (err) {
       //console.log(`catch error fetch ${savedCountRequest.current}`)
-      //console.log(err)
+      console.log(err)
 
       setLoading(false)
       setError(err)
@@ -66,9 +66,19 @@ function useIntervalRequest(isOn, URL, delay, fnTransform) {
 
   useEffect(() => {
     if (isOn) {
+      console.log('FOCUS On')
+      //spinner on every return
+      //  --:show old data before spiner
+      setLoading(true) 
+      savedCountRequest.current = 0
+      // setData(null)
+
       fnRequest()
       let id = setInterval(fnRequest, delay)
       return () => clearInterval(id)
+    }else{
+      console.log('FOCUS oFF')
+      setData(null)
     }
     // eslint-disable-next-line
   }, [isOn])

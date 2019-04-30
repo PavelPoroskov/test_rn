@@ -1,3 +1,14 @@
+function compare(o1, o2) {
+  if (o1.key < o2.key) {
+    return -1;
+  }
+  if (o1.key > o2.key) {
+    return 1;
+  }
+  // a must be equal to b
+  return 0;
+}
+
 export default {
   URL: 'https://poloniex.com/public?command=returnTicker',
 
@@ -22,10 +33,14 @@ export default {
 
   //   return newResult
   // },
-  transformResult: oResult =>
-    Object.keys(oResult).map(key => {
+  transformResult: oResult => {
+    let ar = Object.keys(oResult).map(key => {
       const { last, highestBid, percentChange } = oResult[key]
       return { pair: key, key, last, highestBid, percentChange }
-    }),
+    })
+
+    return ar.sort( compare )
+  },
+ 
 
 }

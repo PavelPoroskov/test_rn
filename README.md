@@ -25,4 +25,15 @@ need fix
 
 after FlatList
 )last element half-view
+	render ListFootComponent with empty
 )network error
+
+
+spinner
+	after screan change: ok
+?	after return myApp(screan Quotes)-->otherApp-->myApp: no spinner
+		no net requests when myApp not active
+
+
+next
+ with context transfer appStateIsActive to QuotesTableConnected.js

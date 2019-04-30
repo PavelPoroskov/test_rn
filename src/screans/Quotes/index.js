@@ -1,7 +1,14 @@
 import React from 'react';
-import {View, Button} from 'react-native';
+import {View, Button, StyleSheet} from 'react-native';
 
 import QuotesTableConnected from './QuotesTableConnected';
+
+const styles = StyleSheet.create({
+  fullHeight: {
+//    height: '100vh',
+    height: '100%',
+  },
+})
 
 export default
 class QuotesScreen extends React.Component {
@@ -10,8 +17,11 @@ class QuotesScreen extends React.Component {
   };
   render() {
     const {navigate} = this.props.navigation;
+    //console.log('QuotesScreen render')
+    //console.log(this.props)
+    //const {appIsActive} = this.props.screenProps
     return (
-      <View>
+      <View style={styles.fullHeight}>
         <Button
           title="Go to About"
           onPress={() => navigate('About')}

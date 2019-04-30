@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   dtable__row__cell_s: {
     flex: 1,
     alignItems: 'flex-start',
-    marginLeft: 1,
+    marginLeft: 4,
     //backgroundColor: 'bisque',
   },
   dtable__row__cell: {
@@ -41,11 +41,12 @@ const styles = StyleSheet.create({
   },
   errorView: {
     backgroundColor: 'pink',
+    alignItems: 'center',
   },
   errorText: {
     color: 'red',
     fontWeight: 'bold',
-    marginLeft: 10,
+    //marginLeft: 10,
   },
 })
 
@@ -83,13 +84,7 @@ const QuotesTableRow = ({ oRow }) => (
   </View>
 )
 
-// const Rows = ({ arRows }) => (
-//   <FlatList
-//     data={arRows}
-//     renderItem={({ item }) => <QuotesTableRow oRow={item} key={item.pair} />}
-//   />
-// )
-
+//to show last items of list
 const ListFooterComponent = (props) => (
   <View>
     <View>
@@ -122,18 +117,19 @@ const ListFooterComponent = (props) => (
   </View>
 )
 
-const QuotesTableFlat = ({ arRows, oDebug, error, info }) => (
+const QuotesTableFlat = ({ arRows, error, info }) => (
   <View style={styles.dtable}>
     {info && <Text>{`requests ${info.countRequest}`}</Text>}
+    <QuotesTableHeader />
     {error && (
       <View style={styles.errorView}>
         <Text style={styles.errorText}>Error</Text>
       </View>
     )}
-    <QuotesTableHeader />
     {arRows && (
       <FlatList
         ListFooterComponent={ListFooterComponent}
+        ListEmptyComponent={() => <Text>Empty result</Text>}
         data={arRows}
         renderItem={({ item }) => (
           <QuotesTableRow oRow={item} key={item.pair} />

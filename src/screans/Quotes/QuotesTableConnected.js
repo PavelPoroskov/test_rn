@@ -38,10 +38,11 @@ const QuotesTableConnected = (props) => {
   //const [loading, data, error, info] = useIntervalRequest( props.isFocused, config.URL, 5000, fnLimit )
   //console.log(`loading ${loading}, error ${error}`)
 
-  if (!data) {
-    if (loading) {
-      return <Loading/>
-    }
+  if (loading) {
+    return <Loading/>
+  }
+  if ( !(data || error) ) {
+    return null
   }
 //  return <QuotesTable arColumns={arColumns} arRows={data} error={error} info={info}/>
   return <QuotesTable arRows={data} error={error} info={info}/>
