@@ -35,5 +35,10 @@ spinner
 		no net requests when myApp not active
 
 
+dont work react-navigation.AppContainer and context Api
+// <AppContext.Provider value={this.state}>
+//   <AppContainer/>;
+// </AppContext.Provider>
+
 next
- with context transfer appStateIsActive to QuotesTableConnected.js
+useReducer

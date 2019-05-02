@@ -1,10 +1,11 @@
 import React from 'react';
 import {withNavigationFocus} from 'react-navigation';
 
-import {useIntervalRequest} from '../../api/hooks';
-
+//import {useRepeatRequest, useAppIsActive} from '../../api';
+import {useRepeatRequestWhenActive} from '../../api';
 import QuotesTable from '../../components/QuotesTable';
 import Loading from '../../components/Loading';
+
 import config from '../../config';
 
 // const arColumns = [
@@ -34,9 +35,18 @@ import config from '../../config';
 
 const QuotesTableConnected = (props) => {
   
-  const [loading, data, error, info] = useIntervalRequest( props.isFocused, config.URL, 5000, config.transformResult )
-  //const [loading, data, error, info] = useIntervalRequest( props.isFocused, config.URL, 5000, fnLimit )
-  //console.log(`loading ${loading}, error ${error}`)
+  //it work, but
+  // const appIsActive = useAppIsActive()
+  // console.log(`QuotesTableConnected/appIsActive ${appIsActive}`) // print 2 time
+  // const [loading, data, error, info] = useRepeatRequest( appIsActive && props.isFocused, config.URL, 5000, config.transformResult )
+
+  //it (custom hook inside custom hook) work, but 
+  const [loading, data, error, info] = useRepeatRequestWhenActive( props.isFocused, config.URL, 5000, config.transformResult )
+  console.log(`QuotesTableConnected`) // print 2 time, WHI
+  // console.log(loading) 
+  // console.log(error) 
+  // console.log(info) 
+//  console.log(data) 
 
   if (loading) {
     return <Loading/>
@@ -44,7 +54,6 @@ const QuotesTableConnected = (props) => {
   if ( !(data || error) ) {
     return null
   }
-//  return <QuotesTable arColumns={arColumns} arRows={data} error={error} info={info}/>
   return <QuotesTable arRows={data} error={error} info={info}/>
 }
 

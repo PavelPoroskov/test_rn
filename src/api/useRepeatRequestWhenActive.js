@@ -1,3 +1,6 @@
+import useAppIsActive from './useAppIsActive'
+import { AppState } from 'react-native'
+
 import { useState, useEffect, useRef } from 'react'
 
 function fetchLimit(URL, msLimit) {
@@ -16,7 +19,33 @@ function fetchLimit(URL, msLimit) {
   })
 }
 
-function useIntervalRequest(isOn, URL, delay, fnTransform) {
+function useRepeatRequestWhenActive(isOn, URL, delay, fnTransform) {
+  const appIsActive = useAppIsActive()
+//   const [appIsActive, setActive] = useState(AppState.currentState === 'active')
+
+//   useEffect(() => {
+//     const _handleAppStateChange = (nextAppState) => {
+//       //console.log(`_handleAppStateChange ${nextAppState}`)
+//       const newActive = (nextAppState === 'active')
+//       //console.log(`newActive ${newActive}`)
+//       //console.log(`active ${active17}`)
+// //      if (newActive != active) {
+//         //console.log(`AppIsActive set to ${newActive}`)
+//         setActive(newActive)
+// //      }
+//       //console.log(`after`)
+//     }
+
+//     //console.log(`subscribe`)
+//     AppState.addEventListener('change', _handleAppStateChange)
+
+//     return () => {
+//       //console.log(`unsubscribe`)
+//       AppState.removeEventListener('change', _handleAppStateChange)
+//     }
+//   }, [] )
+
+
   const [loading, setLoading] = useState(true) // spinner on only first screen open
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
@@ -52,9 +81,16 @@ function useIntervalRequest(isOn, URL, delay, fnTransform) {
         return
       }
 
+      console.log('setData(newData)')
       setData(newData)
-      setLoading(false)
-      setError(null)
+      if (loading) {
+        console.log('setLoading(false)')
+        setLoading(false)
+      }
+      if (error) {
+        console.log('setError(null)')
+        setError(null)
+      }
     } catch (err) {
       //console.log(`catch error fetch ${savedCountRequest.current}`)
       console.log(err)
@@ -65,8 +101,8 @@ function useIntervalRequest(isOn, URL, delay, fnTransform) {
   }
 
   useEffect(() => {
-    if (isOn) {
-      console.log('FOCUS On')
+    if (isOn && appIsActive) {
+      console.log('FOCUS On, set Loading=true')
       //spinner on every return
       //  --:show old data before spiner
       setLoading(true) 
@@ -77,23 +113,24 @@ function useIntervalRequest(isOn, URL, delay, fnTransform) {
       let id = setInterval(fnRequest, delay)
       return () => clearInterval(id)
     }else{
-      console.log('FOCUS oFF')
+      console.log('FOCUS oFF, setData=null')
       setData(null)
     }
-    // eslint-disable-next-line
-  }, [isOn])
+  }, [isOn, appIsActive])
 
-  let oDebug = {
-    countRequest: savedCountRequest.current,
-  }
+  // let oDebug = {
+  //   countRequest: savedCountRequest.current,
+  // }
+  console.log('return from hook')
   return [
     loading,
     data,
     error,
 
-    oDebug,
-    //null,
+    //oDebug,
+    null,
   ]
 }
 
-export { useIntervalRequest }
+export default useRepeatRequestWhenActive
+

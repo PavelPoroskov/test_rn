@@ -17,9 +17,7 @@ class QuotesScreen extends React.Component {
   };
   render() {
     const {navigate} = this.props.navigation;
-    //console.log('QuotesScreen render')
-    //console.log(this.props)
-    //const {appIsActive} = this.props.screenProps
+
     return (
       <View style={styles.fullHeight}>
         <Button
