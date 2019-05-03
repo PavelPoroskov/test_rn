@@ -42,3 +42,5 @@ dont work react-navigation.AppContainer and context Api
 
 next
 useReducer
+? screanQoutes --> screanAbout --> screanQoutes
+in last pause before spinner, short time for spinner, empty screan
