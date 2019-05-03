@@ -1,5 +1,5 @@
 import useAppIsActive from './useAppIsActive'
-import { AppState } from 'react-native'
+//import { AppState } from 'react-native'
 
 import { useState, useEffect, useRef } from 'react'
 
@@ -11,7 +11,7 @@ function fetchLimit(URL, msLimit) {
 
   return Promise.race([fetch(URL), timer]).then(response => {
     if (response.timeout) {
-      throw 'Connection timed out'
+      throw new Error('Connection timed out')
     }
 
     clearTimeout(timeoutId)
@@ -116,7 +116,7 @@ function useRepeatRequestWhenActive(isOn, URL, delay, fnTransform) {
       console.log('FOCUS oFF, setData=null')
       setData(null)
     }
-  }, [isOn, appIsActive])
+  }, [isOn, appIsActive, delay])
 
   // let oDebug = {
   //   countRequest: savedCountRequest.current,

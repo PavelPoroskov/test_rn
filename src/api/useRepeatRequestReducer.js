@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useReducer, useEffect, useRef } from 'react'
 
 function fetchLimit(URL, msLimit) {
   let timeoutId
@@ -18,9 +18,24 @@ function fetchLimit(URL, msLimit) {
 
 const initState = { loading: true, data: null, error: null }
 
+function reducer(state, action) {
+  switch (action.type) {
+    case 'session-begin':
+      return initState;
+    case 'session-end':
+      return { ...state, data: null };
+    case 'request-success':
+      return { ...state, loading: false, data: action.payload };
+    case 'request-error':
+      return { ...state, loading: false, error: action.payload };
+    default:
+      throw new Error();
+  }
+}
+
 function useRepeatRequest(isOn, URL, delay, fnTransform) {
   //console.log('useRepeatRequest/begin')
-  const [state, setState] = useState(initState) // spinner on only first screen open
+  const [state, dispatch] = useReducer( reducer, initState ) // spinner on only first screen open
 
   const savedCountRequest = useRef(0)
 
@@ -54,12 +69,12 @@ function useRepeatRequest(isOn, URL, delay, fnTransform) {
       }
 
       console.log('Success')
-      setState({ loading: false, data: newData, error: null })
+      dispatch({ type: 'request-success', payload: newData })
     } catch (err) {
       //console.log(`catch error fetch ${savedCountRequest.current}`)
       console.log(err)
 
-      setState({ loading: false, data: state.data, error: err })
+      dispatch({ type: 'request-error', payload: err })
     }
   }
 
@@ -68,7 +83,7 @@ function useRepeatRequest(isOn, URL, delay, fnTransform) {
       console.log('FOCUS On')
       //spinner on every return
       //  --:show old data before spiner
-      setState(initState)
+      dispatch({ type: 'session-begin' })
       savedCountRequest.current = 0
       // setData(null)
 
@@ -77,7 +92,7 @@ function useRepeatRequest(isOn, URL, delay, fnTransform) {
       return () => clearInterval(id)
     }else{
       console.log('FOCUS oFF')
-      setState({ loading: state.loading, data: null, error: state.error })
+      dispatch({ type: 'session-end' })
     }
     // eslint-disable-next-line
   }, [isOn])
