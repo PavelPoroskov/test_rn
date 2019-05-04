@@ -1,136 +1,99 @@
-import useAppIsActive from './useAppIsActive'
-//import { AppState } from 'react-native'
+//custom hook useAppIsActive inside other custom hook useRepeatRequestWhenActive
 
-import { useState, useEffect, useRef } from 'react'
+import { useReducer, useEffect, useRef, useCallback } from "react";
+import useAppIsActive from './useAppIsActive'
 
 function fetchLimit(URL, msLimit) {
-  let timeoutId
+  let timeoutId;
   const timer = new Promise(resolve => {
-    timeoutId = setTimeout(resolve, msLimit, { timeout: true })
-  })
+    timeoutId = setTimeout(resolve, msLimit, { timeout: true });
+  });
 
   return Promise.race([fetch(URL), timer]).then(response => {
     if (response.timeout) {
-      throw new Error('Connection timed out')
+      throw new Error("Connection timed out");
     }
 
-    clearTimeout(timeoutId)
-    return response
-  })
+    clearTimeout(timeoutId);
+    return response;
+  });
+}
+
+const initState = { session: true, loading: true, data: null, error: null };
+
+function reducer(state, action) {
+  //console.log(`action.type ${action.type}`)
+
+  switch (action.type) {
+    case "session-begin":
+      return initState; // { session: true, loading: true, data: null, error: null }
+    case "session-pause":
+      return { ...state, session: false, loading: false, data: null };
+
+    case "request-success":
+      if (state.session) {
+        return { ...state, loading: false, data: action.payload, error: null };
+      }
+      return state;
+    case "request-error":
+      if (state.session) {
+        return { ...state, loading: false, error: action.payload };
+      }
+      return state;
+    default:
+      throw new Error();
+  }
 }
 
 function useRepeatRequestWhenActive(isOn, URL, delay, fnTransform) {
   const appIsActive = useAppIsActive()
-//   const [appIsActive, setActive] = useState(AppState.currentState === 'active')
+  const [state, dispatch] = useReducer(reducer, initState); // spinner on only first screen open
+  //const savedCountRequest = useRef(0)
+  const savedCountSessionRequest = useRef(0);
 
-//   useEffect(() => {
-//     const _handleAppStateChange = (nextAppState) => {
-//       //console.log(`_handleAppStateChange ${nextAppState}`)
-//       const newActive = (nextAppState === 'active')
-//       //console.log(`newActive ${newActive}`)
-//       //console.log(`active ${active17}`)
-// //      if (newActive != active) {
-//         //console.log(`AppIsActive set to ${newActive}`)
-//         setActive(newActive)
-// //      }
-//       //console.log(`after`)
-//     }
-
-//     //console.log(`subscribe`)
-//     AppState.addEventListener('change', _handleAppStateChange)
-
-//     return () => {
-//       //console.log(`unsubscribe`)
-//       AppState.removeEventListener('change', _handleAppStateChange)
-//     }
-//   }, [] )
-
-
-  const [loading, setLoading] = useState(true) // spinner on only first screen open
-  const [data, setData] = useState(null)
-  const [error, setError] = useState(null)
-
-  const savedCountRequest = useRef(0)
-
-  async function fnRequest() {
-    if (!isOn) {
-      return
-    }
-
-    savedCountRequest.current = savedCountRequest.current + 1
+  const fnRequest = useCallback(async () => {
+    //savedCountRequest.current = savedCountRequest.current + 1
+    savedCountSessionRequest.current = savedCountSessionRequest.current + 1;
 
     try {
-      //setLoading(true)
-      console.log(`before fetch ${savedCountRequest.current}`)
-      //const result = await fetch(URL)
-      const result = await fetchLimit(URL, 1500 )
-      console.log(`after fetch ${savedCountRequest.current}`)
-      if (!isOn) {
-        return
-      }
-
-      let newData = await result.json()
-      if (!isOn) {
-        return
-      }
-
+      const result = await fetchLimit(URL, 1500);
+      let newData = await result.json();
       if (fnTransform) {
-        newData = fnTransform(newData)
+        newData = fnTransform(newData);
       }
-      if (!isOn) {
-        return
-      }
-
-      console.log('setData(newData)')
-      setData(newData)
-      if (loading) {
-        console.log('setLoading(false)')
-        setLoading(false)
-      }
-      if (error) {
-        console.log('setError(null)')
-        setError(null)
-      }
+      dispatch({ type: "request-success", payload: newData });
     } catch (err) {
-      //console.log(`catch error fetch ${savedCountRequest.current}`)
-      console.log(err)
-
-      setLoading(false)
-      setError(err)
+      console.log(err);
+      dispatch({ type: "request-error", payload: err });
     }
-  }
+  }, [URL, fnTransform]);
 
   useEffect(() => {
-    if (isOn && appIsActive) {
-      console.log('FOCUS On, set Loading=true')
-      //spinner on every return
-      //  --:show old data before spiner
-      setLoading(true) 
-      savedCountRequest.current = 0
-      // setData(null)
+    if (isOn && appIsActive && delay) {
+      dispatch({ type: "session-begin" });
+      savedCountSessionRequest.current = 0;
 
-      fnRequest()
-      let id = setInterval(fnRequest, delay)
-      return () => clearInterval(id)
-    }else{
-      console.log('FOCUS oFF, setData=null')
-      setData(null)
+      fnRequest();
+      let idInterval = setInterval(fnRequest, delay);
+      return () => clearInterval(idInterval);
+    } else {
+      dispatch({ type: "session-pause" });
     }
-  }, [isOn, appIsActive, delay])
+  }, [isOn, appIsActive, delay, fnRequest]);
 
-  // let oDebug = {
-  //   countRequest: savedCountRequest.current,
-  // }
-  console.log('return from hook')
+  let info = {
+    countRequest: savedCountSessionRequest.current
+  };
+
+  const { loading, data, error } = state;
   return [
     loading,
     data,
     error,
 
-    //oDebug,
-    null,
-  ]
+    info
+    //null,
+  ];
 }
 
-export default useRepeatRequestWhenActive
-
+export default useRepeatRequestWhenActive;

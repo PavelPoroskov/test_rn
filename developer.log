@@ -1,0 +1,63 @@
+next
+  render on
+    screanQoutes --> screanAbout --> screanQuotes
+    MyApp.screanQoutes --> other App --> MyApp.screanQoutes
+  tabs
+  animation on changes in table 
+
+need optimization 
+//render Table
+//)virtaualized list (render only visble)
+//rerender
+//)rerender only changed string
+
+
+issue: done: 
+optimise rerender in beginning
+solution: 
+useReducer for state, 
+React.memo(Component) to remove second_render in QuotesTableConnected.js
+
+
+issue: done
+? screanQoutes --> screanAbout --> screanQoutes
+in last pause before spinner, short time for spinner, empty screan
+solution:
+without debuging render quick, couse is debugger
+
+
+issue: open
+for USDC_BTC, USDT_BTC, digits go to next line
+
+
+issue: done
+in FlatList, last element half-view
+solution:
+render FlatList.ListFootComponent with empty
+
+
+issue: done
+switch off network dont catch error in try
+cause:
+fetch() dont throw error
+solution:
+limit fetch time: Promise.race([fetch(URL), timer])
+
+
+issue: done
+no spinner after return myApp(screan Quotes)-->otherApp-->myApp
+		(good: no net requests when myApp not active)
+solution:
+use AppState.onChange
+artefacts:
+dont work react-navigation.AppContainer and context Api
+// <AppContext.Provider value={this.state}>
+//   <AppContainer/>;
+// </AppContext.Provider>
+
+
+issue: open
+https://reactnavigation.org/docs/en/getting-started.html 
+?ios/podfile
+solution:
+test on iOS

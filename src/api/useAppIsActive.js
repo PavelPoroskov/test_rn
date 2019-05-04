@@ -1,21 +1,19 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { AppState } from 'react-native'
 
 function useAppIsActive() {
-  const [active17, setActive] = useState(AppState.currentState === 'active')
+  const [active, setActive] = useState(AppState.currentState === 'active')
+
+  const _handleAppStateChange = useCallback( nextAppState => {
+    //console.log(`_handleAppStateChange ${nextAppState}`)
+    const newActive = nextAppState === 'active'
+    //      if (newActive != active) {
+    //console.log(`AppIsActive set to ${newActive}`)
+    setActive(newActive)
+    //      }
+  }, [] )
 
   useEffect(() => {
-    const _handleAppStateChange = (nextAppState) => {
-      console.log(`_handleAppStateChange ${nextAppState}`)
-      const newActive = (nextAppState === 'active')
-      //console.log(`newActive ${newActive}`)
-      //console.log(`active ${active17}`)
-//      if (newActive != active) {
-        //console.log(`AppIsActive set to ${newActive}`)
-        setActive(newActive)
-//      }
-      //console.log(`after`)
-    }
 
     //console.log(`subscribe`)
     AppState.addEventListener('change', _handleAppStateChange)
@@ -24,9 +22,9 @@ function useAppIsActive() {
       //console.log(`unsubscribe`)
       AppState.removeEventListener('change', _handleAppStateChange)
     }
-  }, [] )
+  }, [_handleAppStateChange])
 
-  return active17
+  return active
 }
 
 export default useAppIsActive

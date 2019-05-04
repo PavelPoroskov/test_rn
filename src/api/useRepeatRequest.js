@@ -1,104 +1,104 @@
-import { useState, useEffect, useRef } from 'react'
+import { useReducer, useEffect, useRef, useCallback, useMemo } from "react";
 
 function fetchLimit(URL, msLimit) {
-  let timeoutId
+  let timeoutId;
   const timer = new Promise(resolve => {
-    timeoutId = setTimeout(resolve, msLimit, { timeout: true })
-  })
+    timeoutId = setTimeout(resolve, msLimit, { timeout: true });
+  });
 
   return Promise.race([fetch(URL), timer]).then(response => {
     if (response.timeout) {
-      throw 'Connection timed out'
+      throw new Error("Connection timed out");
     }
 
-    clearTimeout(timeoutId)
-    return response
-  })
+    clearTimeout(timeoutId);
+    return response;
+  });
 }
 
-const initState = { loading: true, data: null, error: null }
+const initState = { session: true, loading: true, data: null, error: null };
+
+function reducer(state, action) {
+  //console.log(`action.type ${action.type}`)
+
+  switch (action.type) {
+    case "session-begin":
+      return initState; // { session: true, loading: true, data: null, error: null }
+    case "session-pause":
+      return { ...state, session: false, loading: false, data: null };
+
+    case "request-success":
+      if (state.session) {
+        return { ...state, loading: false, data: action.payload, error: null };
+      }
+      return state;
+    case "request-error":
+      if (state.session) {
+        return { ...state, loading: false, error: action.payload };
+      }
+      return state;
+    default:
+      throw new Error(`useRepeatRequest/reducer: unknown action.type ${action.type}`);
+  }
+}
 
 function useRepeatRequest(isOn, URL, delay, fnTransform) {
   //console.log('useRepeatRequest/begin')
-  const [state, setState] = useState(initState) // spinner on only first screen open
+  const [state, dispatch] = useReducer(reducer, initState); // spinner on only first screen open
+  //const savedCountRequest = useRef(0)
+  const savedCountSessionRequest = useRef(0);
 
-  const savedCountRequest = useRef(0)
-
-  async function fnRequest() {
-    if (!isOn) {
-      return
-    }
-
-    savedCountRequest.current = savedCountRequest.current + 1
+  const fnRequest = useCallback(async () => {
+    //savedCountRequest.current = savedCountRequest.current + 1
+    savedCountSessionRequest.current = savedCountSessionRequest.current + 1;
 
     try {
-      //setLoading(true)
-      //console.log(`before fetch ${savedCountRequest.current}`)
-      //const result = await fetch(URL)
-      const result = await fetchLimit(URL, 1500 )
-      //console.log(`after fetch ${savedCountRequest.current}`)
-      if (!isOn) {
-        return
-      }
-
-      let newData = await result.json()
-      if (!isOn) {
-        return
-      }
-
+      const result = await fetchLimit(URL, 1500);
+      let newData = await result.json();
       if (fnTransform) {
-        newData = fnTransform(newData)
+        newData = fnTransform(newData);
       }
-      if (!isOn) {
-        return
-      }
-
-      console.log('Success')
-      setState({ loading: false, data: newData, error: null })
+      dispatch({ type: "request-success", payload: newData });
     } catch (err) {
-      //console.log(`catch error fetch ${savedCountRequest.current}`)
-      console.log(err)
-
-      setState({ loading: false, data: state.data, error: err })
+      console.log(err);
+      dispatch({ type: "request-error", payload: err });
     }
-  }
+  }, [URL, fnTransform]);
 
   useEffect(() => {
-    if (isOn) {
-      console.log('FOCUS On')
-      //spinner on every return
-      //  --:show old data before spiner
-      setState(initState)
-      savedCountRequest.current = 0
-      // setData(null)
+    if (isOn && delay) {
+      dispatch({ type: "session-begin" });
+      savedCountSessionRequest.current = 0;
 
-      fnRequest()
-      let id = setInterval(fnRequest, delay)
-      return () => clearInterval(id)
-    }else{
-      console.log('FOCUS oFF')
-      setState({ loading: state.loading, data: null, error: state.error })
+      fnRequest();
+      let idInterval = setInterval(fnRequest, delay);
+      return () => clearInterval(idInterval);
+    } else {
+      dispatch({ type: "session-pause" });
     }
-    // eslint-disable-next-line
-  }, [isOn])
-
-  let info = {
-    countRequest: savedCountRequest.current,
-  }
+  }, [isOn, delay, fnRequest]);
 
 
-  //console.log('useRepeatRequest/return')
-  const {loading, data, error} = state
-  return [
-    loading,
-    data,
-    error,
+  const result = useMemo( () => {
+    const { loading, data, error } = state;
 
-    info,
-    //null,
-  ]
+    //console.log(`calcul result`)
+
+    let info = {
+      countRequest: savedCountSessionRequest.current
+    };
+    return [
+      loading,
+      data,
+      error,
+
+      info,
+      //null,
+    ];
+  }, [state] )
+
+  //console.log(`useRepeatRequest/END`)
+  return result
 }
 
-
-
-export default useRepeatRequest
+export default useRepeatRequest;

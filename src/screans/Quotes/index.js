@@ -16,6 +16,7 @@ class QuotesScreen extends React.Component {
     title: 'Quotes',
   };
   render() {
+    //console.log('render QuotesScreen')
     const {navigate} = this.props.navigation;
 
     return (
