@@ -36,7 +36,7 @@ export default {
   transformResult: oResult => {
     let ar = Object.keys(oResult).map(key => {
       const { last, highestBid, percentChange } = oResult[key]
-      return { pair: key, key, last, highestBid, percentChange }
+      return { key, last, highestBid, percentChange }
     })
 
     return ar.sort( compare )

@@ -70,7 +70,7 @@ const QuotesTableHeader = () => (
 const QuotesTableRow = ({ oRow }) => (
   <View style={styles.dtable__row}>
     <View style={styles.dtable__row__cell_s}>
-      <Text>{oRow['pair']}</Text>
+      <Text>{oRow['key']}</Text>
     </View>
     <View style={styles.dtable__row__cell}>
       <Text>{oRow['last']}</Text>
