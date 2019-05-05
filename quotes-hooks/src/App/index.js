@@ -11,8 +11,8 @@ import React from 'react';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 
 //import {AppContext, useAppIsActive} from './context'
-import AboutScreen from '../screans/About'
-import QuotesScreen from '../screans/Quotes'
+import AboutScreen from '../screens/About'
+import QuotesScreen from '../screens/Quotes'
 
 
 const MainNavigator = createStackNavigator({
