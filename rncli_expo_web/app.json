@@ -2,6 +2,7 @@
   "name": "rncli_expo_web",
   "displayName": "rncli_expo_web",
   "expo": {
-    "platforms": ["web"]
+    "platforms": ["web"],
+    "nodeModulesPath": "."
   }  
 }
