@@ -1,0 +1,28 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server --config ./webpack.config.js --mode development --open",
+    "startv": "webpack-dev-server --debug --display-error-details --config ./webpack.config.js --mode development --open --verbose",
+    "build": "webpack --config ./webpack.config.js --mode production",
+    "buildv": "webpack --debug --display-error-details --config ./webpack.config.js --mode production --verbose"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/runtime": "^7.4.4",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-react-native-web": "^0.11.2",
+    "metro-react-native-babel-preset": "^0.54.0",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.3.1"
+  },
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-native-web": "^0.11.2"
+  }
+}
