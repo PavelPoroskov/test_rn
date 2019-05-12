@@ -37,7 +37,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-end',
     marginRight: 4,
-    //backgroundColor: 'aqua',
+  },
+  dtable__row__cell_last: {
+    flex: 1,
+    alignItems: 'flex-end',
+    marginRight: 4,
   },
   errorView: {
     backgroundColor: 'pink',
@@ -48,6 +52,39 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     //marginLeft: 10,
   },
+  // cell: {
+  //   flex: 1,
+  //   //alignItems: 'flex-end',
+  //   //marginRight: 4,
+  //   //backgroundColor: 'aqua',
+  //   marginLeft: 4,
+
+  //   display: 'flex',
+  //   flexDirection: 'row',
+  //   justifyContent: 'flex-start',
+
+  //   overflow: 'hidden',
+  // },
+  // cell_last: {
+  //   flex: 1,
+  //   //alignItems: 'flex-end',
+
+  //   //marginRight: 4,
+  //   paddingLeft: 4,
+  //   //backgroundColor: 'aqua',
+  //   display: 'flex',
+  //   flexDirection: 'row',
+  //   justifyContent: 'flex-start',
+  // },
+  // cell_left: {
+  //   flex: 1,
+  //   //minWidth: 10,
+  // },
+  // cell_right: {
+  //   overflow: 'hidden',
+  //   //whiteSpace: 'nowrap',
+  //   //textOverflow: 'ellipsis',
+  // },
 })
 
 const QuotesTableHeader = () => (
@@ -73,16 +110,42 @@ const QuotesTableRow = ({ oRow }) => (
       <Text>{oRow['key']}</Text>
     </View>
     <View style={styles.dtable__row__cell}>
-      <Text>{oRow['last']}</Text>
+      <Text numberOfLines={1} ellipsizeMode={'clip'}>{oRow['last']}</Text>
     </View>
     <View style={styles.dtable__row__cell}>
-      <Text>{oRow['highestBid']}</Text>
+      <Text numberOfLines={1} ellipsizeMode={'clip'}>{oRow['highestBid']}</Text>
     </View>
-    <View style={styles.dtable__row__cell}>
-      <Text>{oRow['percentChange']}</Text>
+    <View style={styles.dtable__row__cell_last}>
+      <Text numberOfLines={1} ellipsizeMode={'clip'}>{oRow['percentChange']}</Text>
     </View>
   </View>
 )
+
+// const QuotesTableRow = ({ oRow }) => (
+//   <View style={styles.dtable__row}>
+//     <View style={styles.dtable__row__cell_s}>
+//       <Text>{oRow['key']}</Text>
+//     </View>
+//     <View style={styles.cell}>
+//       <View style={styles.cell_left}></View>
+//       <View style={styles.cell_right}>
+//         <Text>{oRow['last']}</Text>
+//       </View>
+//     </View>
+//     <View style={styles.cell}>
+//       <View style={styles.cell_left}></View>
+//       <View style={styles.cell_right}>
+//         <Text>{oRow['highestBid']}</Text>
+//       </View>
+//     </View>
+//     <View style={styles.cell_last}>
+//       <View style={styles.cell_left}></View>
+//       <View style={styles.cell_right}>
+//         <Text>{oRow['percentChange']}</Text>
+//       </View>
+//     </View>
+//   </View>
+// )
 
 //to show last items of list
 const ListFooterComponent = (props) => (
