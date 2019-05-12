@@ -26,9 +26,10 @@ solution:
 without debuging render quick, couse is debugger
 
 
-issue: open
+issue: done
 for USDC_BTC, USDT_BTC, digits go to next line
-
+solution:
+<Text numberOfLines={1} ellipsizeMode={'clip'}
 
 issue: done
 in FlatList, last element half-view
