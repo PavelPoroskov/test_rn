@@ -36,6 +36,9 @@ export default {
   transformResult: oResult => {
     let ar = Object.keys(oResult).map(key => {
       const { last, highestBid, percentChange } = oResult[key]
+      if (!last || !highestBid) {
+        throw new Error("Parser error")
+      }
       return { key, last, highestBid, percentChange }
     })
 

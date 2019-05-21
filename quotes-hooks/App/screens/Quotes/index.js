@@ -1,33 +1,23 @@
 import React from 'react'
-import { View, Button, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 
 import QuotesTableConnected from './QuotesTableConnected'
 
 const styles = StyleSheet.create({
   fullHeight: {
-    //    height: '100vh',
-    height: '100%',
+//    height: '100%',
+    flex: 1,
+//  height: '90%',
   },
 })
 
-class QuotesScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Quotes',
-  }
-  render() {
-    //console.log('render QuotesScreen')
-    const { navigate } = this.props.navigation
-
-    return (
-      <View style={styles.fullHeight}>
-        <Button title='Go to About' onPress={() => navigate('About')} />
-        <QuotesTableConnected />
-      </View>
-    )
-  }
-}
+const QuotesScreen = props => (
+  <View style={styles.fullHeight}>
+    <QuotesTableConnected />
+  </View>
+)
 // QuotesScreen.navigationOptions = {
-//   title: 'Quotes',
+//   title: 'Котировки'
 // }
 
 export default QuotesScreen

@@ -1,17 +1,17 @@
 import React from 'react'
-import { Button } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 
-class AboutScreen extends React.Component {
-  static navigationOptions = {
-    title: 'About',
-  };
-  render() {
-    const { navigate } = this.props.navigation
-    return <Button title='Go to Quotes' onPress={() => navigate('Quotes')} />
-  }
-}
+const styles = StyleSheet.create({
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+})
+
+const AboutScreen = props => (
+  <View style={styles.center}>
+    <Text>About Screen</Text>
+  </View>
+)
 // AboutScreen.navigationOptions = {
-//   title: 'About',
+//   title: 'О приложении'
 // }
 
 export default AboutScreen

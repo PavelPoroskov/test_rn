@@ -9,10 +9,10 @@ const styles = StyleSheet.create({
     //backgroundColor: 'pink',
     //height: '20vh',
 
-    //flex: 1,
+    flex: 1,
     //height: '33%',
     //height: '50%',
-    height: '60%',
+    //height: '60%',
   },
 })
 

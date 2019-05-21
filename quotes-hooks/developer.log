@@ -2,7 +2,7 @@ next
   render on
     screanQoutes --> screanAbout --> screanQuotes
     MyApp.screanQoutes --> other App --> MyApp.screanQoutes
-  tabs
+  .tabs
   animation on changes in table 
 
 need optimization 
@@ -11,6 +11,11 @@ need optimization
 //rerender
 //)rerender only changed string
 
+issue: open
+now on screen Quotes
+	height(table) = 100%
+i want
+	height(table) + height(bottomNavigationBar) = 100%
 
 issue: done: 
 optimise rerender in beginning
