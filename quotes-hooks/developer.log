@@ -4,6 +4,7 @@ next
     MyApp.screanQoutes --> other App --> MyApp.screanQoutes
   .tabs
   animation on changes in table 
+  publish web-version on github-pages
 
 need optimization 
 //render Table
@@ -11,11 +12,13 @@ need optimization
 //rerender
 //)rerender only changed string
 
-issue: open
+issue: done
 now on screen Quotes
 	height(table) = 100%
 i want
 	height(table) + height(bottomNavigationBar) = 100%
+solution:
+<View style={{flex:1}} in some middle
 
 issue: done: 
 optimise rerender in beginning

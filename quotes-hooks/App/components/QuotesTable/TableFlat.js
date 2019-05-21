@@ -4,6 +4,7 @@ import { Text, View, FlatList, StyleSheet } from 'react-native'
 const styles = StyleSheet.create({
   dtable: {
     flexDirection: 'column',
+    flex: 1,
   },
   dtable__hrow: {
     flexDirection: 'row',
@@ -147,38 +148,39 @@ const QuotesTableRow = ({ oRow }) => (
 //   </View>
 // )
 
-//to show last items of list
-const ListFooterComponent = (props) => (
-  <View>
-    <View>
-      <Text></Text>
-    </View>
-    <View>
-      <Text></Text>
-    </View>
-    <View>
-      <Text></Text>
-    </View>
-    <View>
-      <Text></Text>
-    </View>
-    <View>
-      <Text></Text>
-    </View>
-    <View>
-      <Text></Text>
-    </View>
-    <View>
-      <Text></Text>
-    </View>
-    <View>
-      <Text></Text>
-    </View>
-    <View>
-      <Text></Text>
-    </View>
-  </View>
-)
+// //to show last items of list
+// const ListFooterComponent = (props) => (
+//   <View>
+//     <View>
+//       <Text></Text>
+//     </View>
+//     <View>
+//       <Text></Text>
+//     </View>
+//     <View>
+//       <Text></Text>
+//     </View>
+//     <View>
+//       <Text></Text>
+//     </View>
+//     <View>
+//       <Text></Text>
+//     </View>
+//     <View>
+//       <Text></Text>
+//     </View>
+//     <View>
+//       <Text></Text>
+//     </View>
+//     <View>
+//       <Text></Text>
+//     </View>
+//     <View>
+//       <Text></Text>
+//     </View>
+//   </View>
+// )
+//         ListFooterComponent={ListFooterComponent}
 
 const QuotesTableFlat = ({ arRows, error, info }) => (
   <View style={styles.dtable}>
@@ -191,7 +193,6 @@ const QuotesTableFlat = ({ arRows, error, info }) => (
     )}
     {arRows && (
       <FlatList
-        ListFooterComponent={ListFooterComponent}
         ListEmptyComponent={() => <Text>Empty result</Text>}
         data={arRows}
         renderItem={({ item }) => (
