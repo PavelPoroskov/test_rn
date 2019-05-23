@@ -3,7 +3,6 @@ next
     screanQoutes --> screanAbout --> screanQuotes
     MyApp.screanQoutes --> other App --> MyApp.screanQoutes
   .tabs
-  animation on changes in table 
   publish web-version on github-pages
 
 need optimization 
@@ -11,6 +10,17 @@ need optimization
 //)virtaualized list (render only visble)
 //rerender
 //)rerender only changed string
+
+issue: open   
+animation on changes in table 
+)rn Animated.Value.addListener(callback) => high cpu load
+	not use addListener
+	use react-class as in tutorial (not use useState)
+)interpolate colors, text style value
+)overlay animation
+	prev change key1 fade
+	current cahnge key2 grow
+) grow two step for a key1 not blink color, ?blink lightness 
 
 issue: done
 now on screen Quotes

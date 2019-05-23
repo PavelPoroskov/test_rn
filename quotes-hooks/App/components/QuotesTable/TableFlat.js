@@ -1,7 +1,9 @@
 import React from 'react'
 import { Text, View, FlatList, StyleSheet } from 'react-native'
 
-import QuotesTableRow from './QuotesTableRow'
+//import QuotesTableRow from './QuotesTableRow'
+//import QuotesTableRow from './QuotesTableRowColor'
+import QuotesTableRow from './QuotesTableRowPrev' // not use rn.Animated.addListener, low cpu usage
 
 const styles = StyleSheet.create({
   dtable: {
