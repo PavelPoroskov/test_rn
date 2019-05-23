@@ -15,11 +15,11 @@ function useAppIsActive() {
       //      }
     }
 
-    console.log(`subscribe`)
+    //console.log(`subscribe`)
     AppState.addEventListener('change', _handleAppStateChange)
 
     return () => {
-      console.log(`unsubscribe`)
+      //console.log(`unsubscribe`)
       AppState.removeEventListener('change', _handleAppStateChange)
     }
   }, [] )

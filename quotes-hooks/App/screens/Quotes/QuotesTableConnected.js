@@ -13,7 +13,7 @@ const QuotesTableConnected = React.memo( (props) => {
   
   const appIsActive = useAppIsActive()
   const [loading, data, error, info] = useRepeatRequest( appIsActive && props.isFocused, config.URL, 5000, config.transformResult )
-  console.log(`render QuotesTableConnected ${info.countRequest}`) 
+  //console.log(`render QuotesTableConnected ${info.countRequest}`) 
 
   if (loading) {
     return <Loading/>
@@ -21,6 +21,7 @@ const QuotesTableConnected = React.memo( (props) => {
   if ( !(data || error) ) {
     return null
   }
+  console.log(`render QuotesTable ${info.countRequest}`) 
   return <QuotesTable arRows={data} error={error} info={info}/>
 })
 
