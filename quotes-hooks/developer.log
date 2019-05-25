@@ -27,6 +27,7 @@ animation on changes in table
 	options 
 		?one Animated for whole table, transfer AnimatedValue to child FlatList
 		useNativeDriver
+		animate only 500ms not 5500ms
 ) not show animation for row on second page of table, only after second render
 	compare prev and curr table_data before render table
 	now in RowComponent
