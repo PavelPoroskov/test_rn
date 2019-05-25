@@ -13,14 +13,23 @@ need optimization
 
 issue: open   
 animation on changes in table 
-)rn Animated.Value.addListener(callback) => high cpu load
-	not use addListener
-	use react-class as in tutorial (not use useState)
-)interpolate colors, text style value
-)overlay animation
-	prev change key1 fade
-	current cahnge key2 grow
+.)rn Animated.Value.addListener(callback) => high cpu load
+	.not use addListener
+	.use react-class as in tutorial (not use useState)
+.)interpolate colors, text style value
+,)overlay animation
+	,prev change key1 fade
+	,current cahnge key2 grow
+	only for other rows, else need two Animated, or Animated for cell
 ) grow two step for a key1 not blink color, ?blink lightness 
+) optimize high cpu load
+	now one Animated for every changed row
+	options 
+		?one Animated for whole table, transfer AnimatedValue to child FlatList
+		useNativeDriver
+) not show animation for row on second page of table, only after second render
+	compare prev and curr table_data before render table
+	now in RowComponent
 
 issue: done
 now on screen Quotes
