@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: 'lightgray',
+    //backgroundColor: 'lightcyan',
   },
   dtable__row__cell_s: {
     flex: 1,
@@ -20,80 +21,58 @@ const styles = StyleSheet.create({
   },
 })
 
-function color2arr10( _str ) {
-  const str = _str.split('(#')[1]
-  const sR = str.slice(0,2)
-  const sG = str.slice(2,4)
-  const sB = str.slice(4,6)
+const colorDefault = 'black'
+const colorUp = 'blue'
+const colorDown = 'red'
+const colorBackgrUp = 'rgb(230,230,250)'
+const colorBackgrDown = 'rgb(255,228,225)'
 
-  return [ parseInt(sR, 16), parseInt(sG, 16), parseInt(sB, 16) ]
-}
-
-let sColor16 = 
-//'chartreuse (#7fff00)' // light
-//'forestgreen (#228b22)' // dark
-//'green (#008000)' // dark
-//'greenyellow (#adff2f)' // light
-//'lawngreen (#7cfc00)' // light
-//'lime (#00ff00)' 
-//'limegreen (#32cd32)'
-//'mediumspringgreen (#00fa9a)' // no 
-//'springgreen (#00ff7f)' // no
-//'yellowgreen (#9acd32)' // no
-//'royalblue (#4169e1)'
-//'mediumblue (#0000cd)'
-'blue (#0000ff)'
-
-const [ clR, clG, clB ] = color2arr10( sColor16 ) 
-
-const oInterpolateGrow = {
-  inputRange: [0, 500, 5000, 5500],
-  outputRange: [
-    'rgb(0, 0, 0)',
-    `rgb(${clR}, ${clG}, ${clB})`,
-    `rgb(${clR}, ${clG}, ${clB})`,
-    'rgb(0, 0, 0)',
-  ],
-  extrapolate: 'calm',
-}
-const oInterpolateNoChange = {
-  inputRange: [0, 5500],
-  outputRange: ['rgb(0, 0, 0)', 'rgb(0, 0, 0)'],
-  extrapolate: 'calm',
-}
-const oInterpolateReduce = {
-  inputRange: [0, 500, 5000, 5500],
-  outputRange: [
-    'rgb(0, 0, 0)',
-    'rgb(255, 0, 0)',
-    'rgb(255, 0, 0)',
-    'rgb(0, 0, 0)',
-  ],
-  extrapolate: 'calm',
-}
+// const oInterpolateUp = {
+//   inputRange: [0, 1],
+//   outputRange: [
+//     'rgba(230,230,250,0)',
+//     'rgba(230,230,250,1)',
+//   ],
+//   extrapolate: 'calm',
+// }
+// const oInterpolateDown = {
+//   inputRange: [0, 1],
+//   outputRange: [
+//     'rgba(255,228,225,0)',
+//     'rgba(255,228,225,1)',
+//   ],
+//   extrapolate: 'calm',
+// }
 
 class RowAnimated extends React.PureComponent {
   state = {
     animValue: new Animated.Value(0),
     animParams: {
-      key: oInterpolateNoChange,
-      last: oInterpolateNoChange,
-      highestBid: oInterpolateNoChange,
-      percentChange: oInterpolateNoChange,
+      key: colorDefault,
+      last: colorDefault,
+      highestBid: colorDefault,
+      percentChange: colorDefault,
     },
+    backgroundColor: null,
   }
 
   render() {
     const oRow = this.props.oRow
     const animValue = this.state.animValue
     const animParams = this.state.animParams
+    const backgroundColor = this.state.backgroundColor
 
     return (
-      <Animated.View style={styles.dtable__row}>
+      <View style={{
+        flexDirection: 'row',
+        borderBottomWidth: 1,
+        borderBottomColor: 'lightgray',
+        backgroundColor: backgroundColor ? backgroundColor : 'transparent'
+      }}>
         <View style={styles.dtable__row__cell_s}>
           <Animated.Text
             style={{
-              color: animValue.interpolate(animParams['key']),
+              color: animParams['key'],
             }}
           >
             {oRow['key']}
@@ -104,7 +83,8 @@ class RowAnimated extends React.PureComponent {
             numberOfLines={1}
             ellipsizeMode={'clip'}
             style={{
-              color: animValue.interpolate(animParams['last']),
+              color: animParams['last'],
+              opacity: animParams['last'] === colorDefault ? 1 : animValue,
             }}
           >
             {oRow['last']}
@@ -115,7 +95,8 @@ class RowAnimated extends React.PureComponent {
             numberOfLines={1}
             ellipsizeMode={'clip'}
             style={{
-              color: animValue.interpolate(animParams['highestBid']),
+              color: animParams['highestBid'],
+              opacity: animParams['last'] === colorDefault ? 1 : animValue,
             }}
           >
             {oRow['highestBid']}
@@ -126,13 +107,14 @@ class RowAnimated extends React.PureComponent {
             numberOfLines={1}
             ellipsizeMode={'clip'}
             style={{
-              color: animValue.interpolate(animParams['percentChange']),
+              color: animParams['percentChange'],
+              opacity: animParams['last'] === colorDefault ? 1 : animValue,
             }}
           >
             {oRow['percentChange']}
           </Animated.Text>
         </View>
-      </Animated.View>
+      </View>
     )
   }
 
@@ -144,29 +126,35 @@ class RowAnimated extends React.PureComponent {
       this._restartAnimation()
     }
   }
-
+  componentWillUnmount() {
+    this.state.animValue.stopAnimation()
+  }
   _restartAnimation = () => {
     const oUpdate = this.props.oUpdate
 
+    let animParams = {
+      key: colorDefault,
+      last: colorDefault,
+      highestBid: colorDefault,
+      percentChange: colorDefault,
+    }
     // const cUpdates = Object.keys(oUpdate).reduce( (acc, key) => (acc + (oUpdate[key] < 0 ? 1 : oUpdate[key])), 0 )
     // if (cUpdates == 0) {
     //   return
     // }
     if (oUpdate['key'] == 0) {
+      this.setState({
+        animParams,
+        backgroundColor: null,
+      })
       return
     }
 
     //start animation
-    let animParams = {
-      key: oInterpolateNoChange,
-      last: oInterpolateNoChange,
-      highestBid: oInterpolateNoChange,
-      percentChange: oInterpolateNoChange,
-    }
     Object.keys(animParams).forEach(key => {
       if (oUpdate[key] !== 0) {
         animParams[key] =
-          oUpdate[key] < 0 ? oInterpolateReduce : oInterpolateGrow
+          oUpdate[key] < 0 ? colorDown : colorUp
       }
     })
 
@@ -176,11 +164,14 @@ class RowAnimated extends React.PureComponent {
       {
         animValue: new Animated.Value(0),
         animParams,
+        // backgroundColor: 0 < oUpdate['key'] ? oInterpolateUp : oInterpolateDown,
+        backgroundColor: 0 < oUpdate['key'] ? colorBackgrUp : colorBackgrDown,
       },
       () => {
-        Animated.timing(this.state.animValue, {
-          toValue: 5500,
-          duration: 5500,
+        Animated.timing( this.state.animValue, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
         }).start()
       }
     )
