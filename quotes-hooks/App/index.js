@@ -6,19 +6,27 @@ import AboutScreen from './screens/About'
 import QuotesScreen from './screens/Quotes'
 //import TabBarButtonComponent from './components/TabBarButtonComponent'
 
+// //react-native
+// console.log('process.env')
+// console.log(process.env) //{NODE_ENV: "development"}
+
+// console.log('__DEV__')
+// console.log(__DEV__) // __DEV__=true
+
+
 const MainNavigator = createBottomTabNavigator(
   {
     About: {
       screen: AboutScreen,
       navigationOptions: {
-        title: 'О приложении',
+        //title: 'О приложении',
         //tabBarButtonComponent: TabBarButtonComponent,
       },
     },
     Quotes: {
       screen: QuotesScreen,
       navigationOptions: {
-        title: 'Котировки',
+        //title: 'Котировки',
         //tabBarButtonComponent: TabBarButtonComponent,
       },
     },

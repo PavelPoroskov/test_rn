@@ -1,15 +1,14 @@
 next
-  render on
-    screanQoutes --> screanAbout --> screanQuotes
-    MyApp.screanQoutes --> other App --> MyApp.screanQoutes
   .tabs
-  publish web-version on github-pages
+  .publish web-version on github-pages
 
 need optimization 
-//render Table
-//)virtaualized list (render only visble)
-//rerender
-//)rerender only changed string
+,render Table
+	.first render, second render
+?    screanQoutes --> screanAbout --> screanQuotes
+?    MyApp.screanQoutes --> other App --> MyApp.screanQoutes
+.virtaualized list (render only visble)
+.rerender only changed row
 
 issue: open   
 animation on changes in table 
@@ -25,10 +24,10 @@ animation on changes in table
 ) optimize high cpu load
 	now one Animated for every changed row
 	options 
-		?one Animated for whole table, transfer AnimatedValue to child FlatList
+?		?one Animated for whole table, transfer AnimatedValue to child FlatList
 		.useNativeDriver
 		.animate only 500ms not 5500ms
-) not show animation for row on second page of table, only after second render
+?) not show animation for row on second page of table, only after second render
 	compare prev and curr table_data before render table
 	now in RowComponent
 

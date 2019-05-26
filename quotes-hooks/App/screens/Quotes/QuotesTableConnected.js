@@ -21,7 +21,9 @@ const QuotesTableConnected = React.memo( (props) => {
   if ( !(data || error) ) {
     return null
   }
-  console.log(`render QuotesTable ${info.countRequest}`) 
+  if (__DEV__) {
+    console.log(`render QuotesTable ${info.countRequest}`) 
+  }
   return <QuotesTable arRows={data} error={error} info={info}/>
 })
 
