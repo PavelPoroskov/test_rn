@@ -1,0 +1,51 @@
+options:
+========
+1) animation with color, circle long 5sec (refetch data from server)
+
+1a)	| /----------------|\                 |
+	|/                 | \                |
+==========================================|
+1b)	|                  | /----------------|
+	|                  |/                 |
+===========================================
+1c)	| /----------------|------------------|\
+	|/                 |                  | \
+
+1a) data was changed after refetch, next refetch data was NOT changed
+	circle 1 
+ color from black to blue/red, 
+ blue,
+ 	circle 2 
+ color from blue to black
+
+? bad user perception
+1c) data was changed after refetch Up, next refetch data was changed Up 
+	circle 1 
+ color from black to blue/red, 
+ blue,
+ 	circle 2 
+ blue,
+
+? bad user perception
+1c2) data was changed after refetch Up, next refetch data was changed Down
+	circle 1 
+ color from black to blue, 
+ blue,
+ 	circle 2 
+ red,
+
+//better user persecption
+1c22) data was changed after refetch Up, next refetch data was changed Down
+	circle 1 
+ color from black to blue, 
+ blue,
+ 	circle 2 
+ color from black/blue to red, 
+ red,
+
+NOW no step "cooling down"
+"circle 2: color from blue to black"
+
+
+2) animation with transform
+	changed number transition in cell from bottom/top

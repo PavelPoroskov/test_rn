@@ -1,0 +1,14 @@
+
+rerender table
+?    screanQoutes --> screanAbout --> screanQuotes
+?    MyApp.screanQoutes --> other App --> MyApp.screanQoutes
+
+
+animation with transform 2) changed number transition in cell from bottom/top
+
+?i18n
+ru
+	tabs
+	AboutScreen
+	QuotesScreen
+		Table header?

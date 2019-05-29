@@ -1,0 +1,10 @@
+
+version with mobx
+version with mobx + typescript
+
+version with redux
+version with redux + typescript
+
+version with typescript
+
+version with rxjs

@@ -1,6 +1,5 @@
-next
-  .tabs
-  .publish web-version on github-pages
+.tabs
+.publish web-version on github-pages
 
 need optimization 
 ,render Table

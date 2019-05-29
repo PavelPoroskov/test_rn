@@ -1,0 +1,12 @@
+
+About Screen
+	first title
+	second title
+
+Table
+	?header
+	old row lightgray, changed row more light
+	
+	dark?
+
+dark theme?
