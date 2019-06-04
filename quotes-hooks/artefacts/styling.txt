@@ -1,6 +1,6 @@
 
-About Screen
-	first title
+.About Screen
+	.first title
 	second title
 
 Table
