@@ -5,10 +5,9 @@ https://docs.google.com/document/d/1It8DSU-8pjkMN2Ub5-mc3wj8WGadc0W1alqdOJfNRyE/
 
 Show quotes for cryptocurrencies.  
 Use api https://poloniex.com/public?command=returnTicker,  
-use react-native,  
+use react-native (,animation,),  
 use react-navigation,  
-use react hooks,  
-use animation.  
+use react hooks.
 
 
 Demo web-version. https://PavelPoroskov.github.io/test_rn/  
