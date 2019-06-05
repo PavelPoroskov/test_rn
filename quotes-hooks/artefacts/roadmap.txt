@@ -6,6 +6,10 @@ rerender table
 ?    screanQoutes --> screanAbout --> screanQuotes
 ?    MyApp.screanQoutes --> other App --> MyApp.screanQoutes
 
+FlatList
+	now: render 7 rows, then render additional rows to fill page
+	change: render all rows for page
+	solution: use FlatList.initialNumToRender = height/ itemHeight
 
 ?i18n
 ru
