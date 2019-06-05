@@ -1,10 +1,11 @@
 
+animation with transform 2) changed number transition in cell from bottom/top
+	or scale from small to normal
+
 rerender table
 ?    screanQoutes --> screanAbout --> screanQuotes
 ?    MyApp.screanQoutes --> other App --> MyApp.screanQoutes
 
-
-animation with transform 2) changed number transition in cell from bottom/top
 
 ?i18n
 ru
@@ -12,3 +13,25 @@ ru
 	AboutScreen
 	QuotesScreen
 		Table header?
+
+
+.optimize 
+	now: 
+		1) render row witn new values1, 
+		2) render row witn old values1 to clear colors
+		3) not render values1
+		...
+		) render row witn new values2
+	change to:
+		1) render row with new value1
+			Animated.sequence([
+				500ms, color from black to blue/red
+				delay(4500) OR delay(4000)
+				500ms, color from blue/red to black
+			])
+		2) not render row witn old values1
+		...
+		) render row witn new values2		 
+
+
+

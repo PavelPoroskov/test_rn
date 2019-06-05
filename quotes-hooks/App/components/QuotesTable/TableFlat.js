@@ -4,8 +4,8 @@ import { Text, View, FlatList, StyleSheet } from 'react-native'
 //import QuotesTableRow from './QuotesTableRow'
 //import QuotesTableRow from './QuotesTableRowColor'
 //import QuotesTableRow from './QuotesTableRowClass' // 
-//import QuotesTableRow from './Row' 
-import QuotesTableRow from './RowClass' 
+import QuotesTableRow from './Row' 
+//import QuotesTableRow from './RowClass' 
 
 const styles = StyleSheet.create({
   dtable: {

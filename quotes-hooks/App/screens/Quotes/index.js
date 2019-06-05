@@ -1,20 +1,22 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, SafeAreaView } from 'react-native'
 
 import QuotesTableConnected from './QuotesTableConnected'
 
 const styles = StyleSheet.create({
   fullHeight: {
-//    height: '100%',
+    //    height: '100%',
     flex: 1,
-//  height: '90%',
+    //  height: '90%',
   },
 })
 
 const QuotesScreen = props => (
-  <View style={styles.fullHeight}>
-    <QuotesTableConnected />
-  </View>
+  <SafeAreaView style={{ flex: 1 }}>
+    <View style={styles.fullHeight}>
+      <QuotesTableConnected />
+    </View>
+  </SafeAreaView>
 )
 // QuotesScreen.navigationOptions = {
 //   title: 'Котировки'

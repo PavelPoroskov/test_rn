@@ -62,6 +62,14 @@ class RowAnimated extends React.PureComponent {
     const animParams = this.state.animParams
     const backgroundColor = this.state.backgroundColor
 
+    if (__DEV__) {
+      // //render row from second page
+      // if (oRow['key']==='XMR_LTC') {
+      //   console.log(`render Row`) 
+      //   console.log(oRow) 
+      // }
+    }
+
     return (
       <View style={{
         flexDirection: 'row',
@@ -118,16 +126,20 @@ class RowAnimated extends React.PureComponent {
     )
   }
 
-  componentDidMount() {
-    this._restartAnimation()
-  }
+  // componentDidMount() {
+  //   this._restartAnimation()
+  // }
   componentDidUpdate(prevProps, prevState) {
     if (this.props.oRow !== prevProps.oRow) {
       this._restartAnimation()
     }
   }
   componentWillUnmount() {
-    this.state.animValue.stopAnimation()
+    //this.state.animValue.stopAnimation()
+
+    if (this.animSequence) {
+      this.animSequence.stop()
+    }
   }
   _restartAnimation = () => {
     const oUpdate = this.props.oUpdate
@@ -138,17 +150,6 @@ class RowAnimated extends React.PureComponent {
       highestBid: colorDefault,
       percentChange: colorDefault,
     }
-    // const cUpdates = Object.keys(oUpdate).reduce( (acc, key) => (acc + (oUpdate[key] < 0 ? 1 : oUpdate[key])), 0 )
-    // if (cUpdates == 0) {
-    //   return
-    // }
-    if (oUpdate['key'] == 0) {
-      this.setState({
-        animParams,
-        backgroundColor: null,
-      })
-      return
-    }
 
     //start animation
     Object.keys(animParams).forEach(key => {
@@ -158,7 +159,10 @@ class RowAnimated extends React.PureComponent {
       }
     })
 
-    this.state.animValue.stopAnimation()
+    //this.state.animValue.stopAnimation()
+    if (this.animSequence) {
+      this.animSequence.stop()
+    }
 
     this.setState(
       {
@@ -168,14 +172,36 @@ class RowAnimated extends React.PureComponent {
         backgroundColor: 0 < oUpdate['key'] ? colorBackgrUp : colorBackgrDown,
       },
       () => {
-        Animated.timing( this.state.animValue, {
-          toValue: 1,
-          duration: 500,
-          useNativeDriver: true,
-        }).start()
+
+        this.animSequence = Animated.sequence([
+
+          Animated.timing( this.state.animValue, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true,
+          }),
+          Animated.delay(4499)
+
+        ])
+
+        this.animSequence.start( this._onStopAnimation )
+
       }
     )
   } 
+  _onStopAnimation = () => {
+    let animParams = {
+      key: colorDefault,
+      last: colorDefault,
+      highestBid: colorDefault,
+      percentChange: colorDefault,
+    }
+
+    this.setState({
+      animParams,
+      backgroundColor: null,
+    })
+  }
 }
 
 export default RowAnimated
